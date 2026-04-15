@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.image.ImageView?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.demo1.CafeteriaController">
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+    </padding>
+    <top>
+        <VBox alignment="CENTER">
+            <Label text="Super máquina de Boba Tea" style="-fx-font-weight: bold; -fx-font-size: 20"/>
+        </VBox>
+    </top>
+    <left>
+        <VBox alignment="TOP_CENTER" spacing="10" style="-fx-padding: 10">
+            <Label text="Base"/>
+            <Button fx:id="baseTea" text="Base de Te" onAction="#setTeaBase" disable="true" VBox.vgrow="ALWAYS" maxWidth="Infinity"/>
+            <Button fx:id="baseYogurt" text="Base de Yogurt" onAction="#addYogurt" disable="true" VBox.vgrow="ALWAYS" maxWidth="Infinity"/>
+            <Label text="Topings"/>
+            <Button fx:id="addFruta" text="Agregar fruta" onAction="#addFruta" disable="true" VBox.vgrow="ALWAYS" maxWidth="Infinity"/>
+            <Button fx:id="addGelatina" text="Agregar gelatina" onAction="#addGelatina" disable="true" VBox.vgrow="ALWAYS" maxWidth="Infinity"/>
+            <Button fx:id="addExtra" text="Agregar más tapioca" onAction="#addExtra" disable="true" VBox.vgrow="ALWAYS" maxWidth="Infinity"/>
+            <Button fx:id="addPop" text="Agregar tapiocas explosivas" onAction="#addPop" disable="true" VBox.vgrow="ALWAYS" maxWidth="Infinity"/>
+        </VBox>
+    </left>
+    <center>
+
+    </center>
+    <bottom>
+        <VBox alignment="CENTER" spacing="10">
+            <Label fx:id="bebidaOrder" text="Orden ser como"  wrapText="true" HBox.hgrow="ALWAYS" style="-fx-font-style: italic;"/>
+            <HBox alignment="CENTER">
+                <Label text="Total: $"/>
+                <Label fx:id="total" text="0"/>
+                <Label text=".00"/>
+            </HBox>
+            <HBox alignment="CENTER" spacing="12">
+                <Button fx:id="start" text="Empezar orden" onAction="#startOrder"/>
+                <Button fx:id="restart" text="Reiniciar orden" onAction="#restartOrder" disable="true"/>
+                <Button fx:id="finish" text="Terminar orden" onAction="#finishOrder" disable="true"/>
+            </HBox>
+        </VBox>
+    </bottom>
+</BorderPane>
