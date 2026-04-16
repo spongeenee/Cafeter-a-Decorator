@@ -2,6 +2,7 @@ package com.example.demo1.models;
 
 public class ExtraDecorator implements Producto {
     private Producto decorated;
+    private long ID;
     private String nombre;
     private double precio;
     private boolean estado;
