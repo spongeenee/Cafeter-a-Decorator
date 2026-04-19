@@ -5,13 +5,18 @@ public class ExtraDecorator implements Producto {
     private long ID;
     private String nombre;
     private double precio;
-    private boolean estado;
+    private boolean activo;
 
     public ExtraDecorator(Producto decorated, String nombre, double precio) {
         this.decorated = decorated;
         this.nombre = nombre;
         this.precio = precio;
-        estado = true;
+        activo = true;
+    }
+
+    public ExtraDecorator(String nombre, double precio) {
+        this.nombre = nombre;
+        this.precio = precio;
     }
 
     @Override
@@ -22,5 +27,34 @@ public class ExtraDecorator implements Producto {
     @Override
     public String nombre() {
         return decorated.nombre() + " con " + nombre;
+    }
+
+    public void setID(long ID) {
+        this.ID = ID;
+    }
+
+    public long getID() {
+        return ID;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public double getPrecio() {
+        return precio;
+    }
+
+    public boolean getActivo() {
+        return activo;
+    }
+
+    public void setActivo(boolean activo) {
+        this.activo = activo;
+    }
+
+    @Override
+    public String toString() {
+        return nombre;
     }
 }

@@ -1,9 +1,18 @@
 package com.example.demo1;
 
+import com.example.demo1.models.ExtraDecorator;
+import com.example.demo1.models.ProductoFactory;
+import com.example.demo1.service.ExtraService;
+import com.example.demo1.service.ProductoService;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
 public class CafeteriaController {
+    private final ProductoService productoService = new ProductoService();
+    private final ExtraService extraService = new ExtraService();
+
     @FXML
     private Label total;
     @FXML
@@ -19,21 +28,16 @@ public class CafeteriaController {
     @FXML
     private TextArea registro;
     @FXML
-    private ComboBox<String> product;
+    private ComboBox<ProductoFactory> product;
     @FXML
-    private ComboBox<String> extra;
+    private ComboBox<ExtraDecorator> extra;
 
     @FXML
     private void initialize() {
-        product.getItems().add("Pizza");
-        product.getItems().add("Hamburger");
-        product.getItems().add("Beef");
-        product.getItems().add("Coffee");
-        extra.getItems().add("-----");
-        extra.getItems().add("Bacon");
-        extra.getItems().add("Cheese");
-        extra.getItems().add("Milk");
-        extra.getItems().add("Chocolate");
+        ObservableList<ProductoFactory> productos = FXCollections.observableList(productoService.findAll());
+        product.setItems(productos);
+        ObservableList<ExtraDecorator> extras = FXCollections.observableList(extraService.findAll());
+        extra.setItems(extras);
     }
 
     @FXML
@@ -43,7 +47,7 @@ public class CafeteriaController {
     }
     @FXML
     protected void addProduct() {
-        registro.setText(extra.getValue().contains("-----") || extra.getValue().isEmpty()
+        registro.setText(extra.getValue().getNombre().isEmpty()
                         ? registro.getText() + "\n" + product.getValue()
                         : registro.getText() + "\n" + product.getValue() + " " + extra.getValue());
     }

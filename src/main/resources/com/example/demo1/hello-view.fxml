@@ -13,9 +13,9 @@
 <?import javafx.scene.control.ComboBox?>
 <BorderPane xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.example.demo1.CafeteriaController"
-            style="-fx-background-color: #b6b6b6">
+            style="-fx-background-color: #cfcfcf">
     <padding>
-        <Insets bottom="20.0" left="10.0" right="10.0" top="20.0"/>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
     </padding>
     <top>
         <VBox alignment="CENTER">
@@ -23,20 +23,20 @@
         </VBox>
     </top>
     <left>
-        <VBox spacing="10" style="-fx-padding: 10; -fx-background-color: #e8e6e6">
+        <VBox spacing="10" style="-fx-padding: 10; -fx-background-color: #ededed">
             <Label text="Producto"/>
             <ComboBox fx:id="product" maxWidth="Infinity" VBox.vgrow="ALWAYS" onAction="#selectProduct" disable="true"/>
         </VBox>
     </left>
     <center>
-        <VBox spacing="10" style="-fx-padding: 10; -fx-background-color: #e8e6e6">
+        <VBox spacing="10" style="-fx-padding: 10; -fx-background-color: #ededed">
             <Label text="Lista de Extras"/>
             <ComboBox fx:id="extra" maxWidth="Infinity" VBox.vgrow="ALWAYS" disable="true"/>
             <Button fx:id="addProduct" text="Agregar" onAction="#addProduct" disable="true" maxWidth="Infinity" VBox.vgrow="ALWAYS"/>
         </VBox>
     </center>
     <right>
-        <VBox spacing="10" style="-fx-padding: 10; -fx-background-color: #e8e6e6">
+        <VBox spacing="10" style="-fx-padding: 10; -fx-background-color: #ededed">
             <TextArea fx:id="registro" editable="false" VBox.vgrow="ALWAYS" maxWidth="Infinity"/>
             <HBox alignment="CENTER">
                 <Label text="Total: $"/>
