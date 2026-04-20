@@ -1,0 +1,17 @@
+.label-outlined {
+    -fx-stroke: whitesmoke;
+    -fx-stroke-width: 5px;
+}
+
+.panel-bg {
+    -fx-padding: 10;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-border-color: #a9a9a9;
+    -fx-background-color: linear-gradient(to bottom, #ededed, #d3d3d3)
+}
+
+.background {
+    -fx-spacing: 10;
+    -fx-background-color: linear-gradient(to bottom, #adadad, #d2d2d2, #adadad)
+}

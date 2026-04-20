@@ -7,10 +7,10 @@ public class ExtraDecorator implements Producto {
     private double precio;
     private boolean activo;
 
-    public ExtraDecorator(Producto decorated, String nombre, double precio) {
+    public ExtraDecorator(Producto decorated, ExtraDecorator decorator) {
         this.decorated = decorated;
-        this.nombre = nombre;
-        this.precio = precio;
+        this.nombre = decorator.getNombre();
+        this.precio = decorator.getPrecio();
         activo = true;
     }
 
