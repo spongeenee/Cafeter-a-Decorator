@@ -29,7 +29,7 @@
     </top>
     <bottom>
         <VBox alignment="CENTER">
-            <Hyperlink text="¿Olvidaste tu contraseña?"/>
+            <Hyperlink text="¿Olvidaste tu correo u contraseña?"/>
         </VBox>
     </bottom>
     <center>
@@ -37,7 +37,7 @@
             <VBox spacing="18" styleClass="panel-bg" style="-fx-padding: 20" alignment="CENTER">
                 <VBox spacing="10" alignment="CENTER">
                     <HBox spacing="10.0" style="-fx-alignment: center_left">
-                        <Label text="Usuario: "/>
+                        <Label text="Correo: "/>
                         <TextField fx:id="usuario" promptText="Usuario" HBox.hgrow="ALWAYS"/>
                     </HBox>
                     <HBox spacing="10.0" style="-fx-alignment: center_left">
