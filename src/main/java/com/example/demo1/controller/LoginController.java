@@ -55,6 +55,10 @@ public class LoginController {
                     loginStatus.setTextFill(Color.LIGHTSLATEGRAY);
                     FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
                     Parent root = fxmlLoader.load();
+
+                    CafeteriaController cafeteria = fxmlLoader.getController();
+                    cafeteria.setUsuarioIDActual(auxiliar.idUsuario());
+
                     Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                     stage.close();
                     stage.setTitle("Costoso: Cafetería Service");

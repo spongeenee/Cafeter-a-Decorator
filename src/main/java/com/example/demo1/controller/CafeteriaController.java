@@ -2,6 +2,7 @@ package com.example.demo1.controller;
 
 import com.example.demo1.models.*;
 import com.example.demo1.service.ExtraService;
+import com.example.demo1.service.MetodoPagoService;
 import com.example.demo1.service.PedidoService;
 import com.example.demo1.service.ProductoService;
 import javafx.collections.FXCollections;
@@ -20,7 +21,8 @@ public class CafeteriaController {
     private final ProductoService productoService = new ProductoService();
     private final ExtraService extraService = new ExtraService();
     private final PedidoService pedidoService = new PedidoService();
-    private long usuarioIDActual = 1;
+    private final MetodoPagoService metodoPagoService = new MetodoPagoService();
+    private long usuarioIDActual;
     private Producto auxiliar;
     private ProductoFactory selected;
     private final List<CrearPedidoDetalleDTO> detallesActuales = new ArrayList<>();
@@ -57,6 +59,10 @@ public class CafeteriaController {
     @FXML
     private ComboBox<MetodoPago> metodoPago;
 
+    public void setUsuarioIDActual(long ID) {
+        this.usuarioIDActual = ID;
+    }
+
     /**
      * Auxiliar para mantener el registro de los extras
      */
@@ -92,6 +98,8 @@ public class CafeteriaController {
         product.setItems(productos);
         ObservableList<ExtraDecorator> extras = FXCollections.observableList(extraService.findAll());
         extra.setItems(extras);
+        ObservableList<MetodoPago> metodoPagos = FXCollections.observableList(metodoPagoService.obtenerTodos());
+        metodoPago.setItems(metodoPagos);
     }
 
     @FXML
@@ -164,9 +172,14 @@ public class CafeteriaController {
     }
 
     @FXML
-    protected void finishOrder() throws SQLException {
+    protected void finishOrder() {
         // Detalles del Pedido
-        pedidoService.crearPedidoCompleto(usuarioIDActual, detallesActuales, extrasActuales);
+        try {
+            pedidoService.crearPedidoCompleto(usuarioIDActual, detallesActuales, extrasActuales);
+        } catch (SQLException e) {
+            statusMessage.setText(e.getMessage());
+            statusMessage.setTextFill(Color.CRIMSON);
+        }
         // UI
         restart.setDisable(true);
         start.setDisable(false);
