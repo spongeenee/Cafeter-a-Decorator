@@ -72,7 +72,7 @@
                 <Button fx:id="finish" disable="true" onAction="#finishOrder" text="Terminar orden" />
             </HBox>
             <HBox styleClass="panel-bg">
-                <ComboBox
+                <ComboBox fx:id="metodoPago"/>
             </HBox>
         </VBox>
     </bottom>
