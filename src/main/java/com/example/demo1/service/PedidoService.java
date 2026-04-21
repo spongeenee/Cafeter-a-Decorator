@@ -117,6 +117,85 @@ public class PedidoService extends GenericService<Pedido> {
         return new PedidoCompleto(pedido, detalles, extrasMap);
     }
 
+    /**
+     * Actualiza el estado de un pedido
+     */
+    public boolean actualizarEstadoPedido(long idPedido, String nuevoEstado) throws SQLException {
+        PedidoDAO pedidoDAO = (PedidoDAO) DAO;
+        Pedido pedido = pedidoDAO.findByID(idPedido);
+        
+        if (pedido == null) {
+            throw new IllegalArgumentException("El pedido no existe");
+        }
+
+        // Crear nuevo pedido con estado actualizado
+        Pedido pedidoActualizado = new Pedido(
+                pedido.ID(),
+                pedido.usuarioID(),
+                pedido.fecha(),
+                pedido.total(),
+                nuevoEstado
+        );
+
+        return pedidoDAO.update(pedidoActualizado);
+    }
+
+    /**
+     * Marca un pedido como pagado
+     */
+    public boolean marcarPedidoPagado(long idPedido) throws SQLException {
+        return actualizarEstadoPedido(idPedido, "PAGADO");
+    }
+
+    /**
+     * Obtiene un pedido por ID
+     */
+    public Pedido obtenerPorID(long id) {
+        try {
+            return DAO.findByID(id);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Obtiene todos los pedidos de un usuario
+     */
+    public List<Pedido> obtenerPedidosPorUsuario(long usuarioID) {
+        try {
+            List<Pedido> todos = DAO.findAll();
+            return todos.stream()
+                    .filter(p -> p.usuarioID() == usuarioID)
+                    .toList();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Obtiene el ID de todos los pedidos de un usuario
+     */
+    public List<Long> obtenerIDsPedidosPorUsuario(long usuarioID) {
+        return obtenerPedidosPorUsuario(usuarioID)
+                .stream()
+                .map(Pedido::ID)
+                .toList();
+    }
+
+    /**
+     * Obtiene todos los pedidos con estado específico
+     */
+    public List<Pedido> obtenerPedidosPorEstado(String estado) {
+        try {
+            List<Pedido> todos = DAO.findAll();
+            return todos.stream()
+                    .filter(p -> p.estado().equals(estado))
+                    .toList();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public boolean register(ArrayList<ProductoFactory> productos, ArrayList<ExtraDecorator> extras, double total, boolean estado) {
         return false;
     }

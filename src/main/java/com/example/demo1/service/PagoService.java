@@ -13,12 +13,14 @@ import java.util.List;
 public class PagoService extends GenericService<Pago> {
     private final PagoDAO pagoDAO;
     private final PedidoDAO pedidoDAO;
+    private final PedidoService pedidoService;
 
     public PagoService() {
         try {
             this.DAO = new PagoDAO();
             this.pagoDAO = (PagoDAO) DAO;
             this.pedidoDAO = new PedidoDAO();
+            this.pedidoService = new PedidoService();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -40,7 +42,17 @@ public class PagoService extends GenericService<Pago> {
         }
 
         Pago pago = new Pago(0, dto.idPedido(), dto.idMetodo(), dto.monto(), LocalDateTime.now(), dto.referencia());
-        return pagoDAO.saveAndGetId(pago);
+        Pago pagoGuardado = pagoDAO.saveAndGetId(pago);
+
+        if (pagoGuardado != null) {
+            // Verificar si el pedido está completamente pagado
+            if (pedidoEstaCompleto(dto.idPedido())) {
+                // Marcar pedido como PAGADO
+                pedidoService.marcarPedidoPagado(dto.idPedido());
+            }
+        }
+
+        return pagoGuardado;
     }
 
     /**

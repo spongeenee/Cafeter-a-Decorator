@@ -1,10 +1,7 @@
 package com.example.demo1.controller;
 
 import com.example.demo1.models.*;
-import com.example.demo1.service.ExtraService;
-import com.example.demo1.service.MetodoPagoService;
-import com.example.demo1.service.PedidoService;
-import com.example.demo1.service.ProductoService;
+import com.example.demo1.service.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -22,9 +19,11 @@ public class CafeteriaController {
     private final ExtraService extraService = new ExtraService();
     private final PedidoService pedidoService = new PedidoService();
     private final MetodoPagoService metodoPagoService = new MetodoPagoService();
+    private final PagoService pagoService = new PagoService();
     private long usuarioIDActual;
     private Producto auxiliar;
     private ProductoFactory selected;
+    private Pedido pedidoInProcess;
     private final List<CrearPedidoDetalleDTO> detallesActuales = new ArrayList<>();
     private final Map<Integer, List<CrearPedidoDetalleExtrasDTO>> extrasActuales = new HashMap<>();
 
@@ -39,6 +38,8 @@ public class CafeteriaController {
     @FXML
     private Label pagoLabel;
     @FXML
+    private Label paymentStatus;
+    @FXML
     private Button start;
     @FXML
     private Button restart;
@@ -52,6 +53,8 @@ public class CafeteriaController {
     private Button pay;
     @FXML
     private TextArea registro;
+    @FXML
+    private TextField monto;
     @FXML
     private ComboBox<ProductoFactory> product;
     @FXML
@@ -175,7 +178,7 @@ public class CafeteriaController {
     protected void finishOrder() {
         // Detalles del Pedido
         try {
-            pedidoService.crearPedidoCompleto(usuarioIDActual, detallesActuales, extrasActuales);
+            pedidoInProcess = pedidoService.crearPedidoCompleto(usuarioIDActual, detallesActuales, extrasActuales);
         } catch (SQLException e) {
             statusMessage.setText(e.getMessage());
             statusMessage.setTextFill(Color.CRIMSON);
@@ -185,9 +188,34 @@ public class CafeteriaController {
         start.setDisable(false);
         product.setDisable(true);
         statusMessage.setText("");
+        monto.setPromptText(total.getText());
         updateText();
         enableExtraSelection(false);
         enablePayment(true);
     }
 
+    @FXML
+    protected void payment() {
+        if (!monto.getText().isBlank()) {
+            double monto = Double.parseDouble(this.monto.getText());
+            double total = Double.parseDouble(this.total.getText());
+            if (monto != total) {
+                paymentStatus.setText("Pago insuficiente");
+                paymentStatus.setTextFill(Color.CRIMSON);
+            } else if (monto == total) {
+                paymentStatus.setText("Pago exitoso");
+                paymentStatus.setTextFill(Color.GREEN);
+                long ID = pedidoInProcess.ID();
+                try {
+                    pedidoService.marcarPedidoPagado(ID);
+                    pagoService.registrarPago(new CrearPagoDTO(ID, metodoPago.getValue().idMetodo(), monto, ("Registrado por usuario " + usuarioIDActual)));
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        } else {
+            paymentStatus.setText("Ingresar cantidad a pagar");
+            paymentStatus.setTextFill(Color.CRIMSON);
+        }
+    }
 }

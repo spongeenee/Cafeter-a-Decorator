@@ -67,7 +67,7 @@
     <!-- Orden y Pedido -->
     <bottom>
         <VBox style="-fx-padding: 5">
-            <VBox styleClass="panel-bg">
+            <VBox styleClass="panel-bg" alignment="CENTER">
                 <HBox alignment="BASELINE_RIGHT" spacing="12" style="-fx-padding: 5">
                     <Label text="Maneja tu orden:"/>
                     <Region HBox.hgrow="ALWAYS"/>
@@ -78,9 +78,12 @@
                 <HBox style="-fx-padding: 5" spacing="10">
                     <Label fx:id="pagoLabel" text="Selecciona método de pago:" style="-fx-font-style: italic" disable="true"/>
                     <ComboBox fx:id="metodoPago" HBox.hgrow="ALWAYS" disable="true"/>
+                    <Label text="Monto:"/>
+                    <TextField fx:id="monto" HBox.hgrow="ALWAYS"/>
                     <Region HBox.hgrow="ALWAYS"/>
-                    <Button fx:id="pay" text="Pagar" disable="true"/>
+                    <Button fx:id="pay" text="Pagar" onAction="#payment" disable="true"/>
                 </HBox>
+                <Label fx:id="paymentStatus"/>
             </VBox>
         </VBox>
     </bottom>
