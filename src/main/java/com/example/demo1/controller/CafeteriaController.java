@@ -1,4 +1,4 @@
-package com.example.demo1;
+package com.example.demo1.controller;
 
 import com.example.demo1.models.ExtraDecorator;
 import com.example.demo1.models.Producto;

@@ -8,7 +8,7 @@
             stylesheets="@styles.css"
             xmlns="http://javafx.com/javafx/17.0.12"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.example.demo1.CafeteriaController">
+            fx:controller="com.example.demo1.controller.CafeteriaController">
     <padding>
         <Insets bottom="16.0" left="16.0" right="16.0" top="16.0" />
     </padding>

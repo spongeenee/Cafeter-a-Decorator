@@ -23,9 +23,7 @@ public class ExtraDAO extends GenericDAO<ExtraDecorator> {
                 stmt.setBoolean(3, extra.getActivo());
 
                 int affectedRows = stmt.executeUpdate();
-
                 if (affectedRows == 0) return false;
-
                 try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
                     if (generatedKeys.next()) {
                         extra.setID(generatedKeys.getLong(1));
@@ -33,7 +31,6 @@ public class ExtraDAO extends GenericDAO<ExtraDecorator> {
                         return false;
                     }
                 }
-
                 return true;
             } catch (SQLException e) {
                 System.err.println("Error al guardar usuario: " + e.getMessage());

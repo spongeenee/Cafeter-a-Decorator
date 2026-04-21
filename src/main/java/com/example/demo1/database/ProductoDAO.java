@@ -24,9 +24,7 @@ public class ProductoDAO extends GenericDAO<ProductoFactory> {
                 stmt.setBoolean(4, producto.getActivo());
 
                 int affectedRows = stmt.executeUpdate();
-
                 if (affectedRows == 0) return false;
-
                 try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
                     if (generatedKeys.next()) {
                         producto.setID(generatedKeys.getLong(1));
@@ -34,7 +32,6 @@ public class ProductoDAO extends GenericDAO<ProductoFactory> {
                         return false;
                     }
                 }
-
                 return true;
             } catch (SQLException e) {
                 System.err.println("Error al guardar usuario: " + e.getMessage());
