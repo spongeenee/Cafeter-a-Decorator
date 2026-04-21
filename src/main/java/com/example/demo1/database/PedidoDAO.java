@@ -14,6 +14,10 @@ public class PedidoDAO extends GenericDAO<Pedido> {
 
     @Override
     public boolean save(Pedido pedido) throws SQLException {
+        return saveAndGetId(pedido) != null;
+    }
+
+    public Pedido saveAndGetId(Pedido pedido) throws SQLException {
         try (Connection connection = DatabaseConnection.getConnection()) {
             String sql = "INSERT INTO pedidos (id_usuario, fecha, total, estado) VALUES (?, ?, ?, ?)";
 
@@ -24,10 +28,18 @@ public class PedidoDAO extends GenericDAO<Pedido> {
                 stmt.setString(4, pedido.estado());
 
                 int affectedRows = stmt.executeUpdate();
-                return affectedRows > 0;
+                if (affectedRows == 0) return null;
+
+                try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        long id = generatedKeys.getLong(1);
+                        return new Pedido(id, pedido.usuarioID(), pedido.fecha(), pedido.total(), pedido.estado());
+                    }
+                }
+                return null;
             } catch (SQLException e) {
                 System.err.println("Error al guardar pedido: " + e.getMessage());
-                return false;
+                return null;
             }
         } catch (Exception e) {
             throw new RuntimeException(e);

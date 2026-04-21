@@ -110,11 +110,13 @@ public class ProductoDAO extends GenericDAO<ProductoFactory> {
 
     @Override
     protected ProductoFactory mapResultSetToEntity(ResultSet rs) throws SQLException {
-        return new ProductoFactory(
+        ProductoFactory producto = new ProductoFactory(
                 rs.getString("nombre"),
                 rs.getString("descripcion"),
                 rs.getDouble("precio_base")
-                );
+        );
+        producto.setID(rs.getLong("id_producto"));
+        return producto;
     }
 
     @Override

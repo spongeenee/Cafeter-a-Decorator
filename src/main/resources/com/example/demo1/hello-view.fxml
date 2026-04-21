@@ -42,7 +42,7 @@
             </VBox>
         </VBox>
     </center>
-    <!-- Botones de operación -->
+    <!-- Registro del pedido -->
     <right>
         <VBox style="-fx-padding: 5">
             <VBox styleClass="panel-bg" spacing="10" alignment="CENTER_RIGHT" maxWidth="Infinity" VBox.vgrow="ALWAYS">
@@ -65,10 +65,15 @@
         </VBox>
     </right>
     <bottom>
-            <HBox alignment="BASELINE_RIGHT" spacing="12" style="-fx-padding: 10">
+        <VBox style="-fx-padding: 5">
+            <HBox styleClass="panel-bg" alignment="BASELINE_RIGHT" spacing="12" style="-fx-padding: 10">
                 <Button fx:id="start" onAction="#startOrder" text="Empezar orden" />
                 <Button fx:id="restart" disable="true" onAction="#restartOrder" text="Reiniciar orden" />
                 <Button fx:id="finish" disable="true" onAction="#finishOrder" text="Terminar orden" />
             </HBox>
+            <HBox styleClass="panel-bg">
+                <ComboBox
+            </HBox>
+        </VBox>
     </bottom>
 </BorderPane>

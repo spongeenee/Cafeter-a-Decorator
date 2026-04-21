@@ -14,6 +14,10 @@ public class PedidoDetalleDAO extends GenericDAO<PedidoDetalle> {
 
     @Override
     public boolean save(PedidoDetalle detalleDAO) throws SQLException {
+        return saveAndGetId(detalleDAO) != null;
+    }
+
+    public PedidoDetalle saveAndGetId(PedidoDetalle detalleDAO) throws SQLException {
         try (Connection connection = DatabaseConnection.getConnection()) {
             String sql = "INSERT INTO pedido_detalle (id_pedido, id_producto, cantidad, precio_base) VALUES (?, ?, ?, ?)";
 
@@ -24,10 +28,18 @@ public class PedidoDetalleDAO extends GenericDAO<PedidoDetalle> {
                 stmt.setDouble(4, detalleDAO.precioBase());
 
                 int affectedRows = stmt.executeUpdate();
-                return affectedRows > 0;
+                if (affectedRows == 0) return null;
+
+                try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        long id = generatedKeys.getLong(1);
+                        return new PedidoDetalle(id, detalleDAO.idPedido(), detalleDAO.idProducto(), detalleDAO.cantidad(), detalleDAO.precioBase());
+                    }
+                }
+                return null;
             } catch (SQLException e) {
                 System.err.println("Error al guardar pedido detalle: " + e.getMessage());
-                return false;
+                return null;
             }
         } catch (Exception e) {
             throw new RuntimeException(e);

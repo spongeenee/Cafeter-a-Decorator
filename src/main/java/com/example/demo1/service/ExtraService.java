@@ -15,13 +15,11 @@ public class ExtraService extends GenericService<ExtraDecorator> {
         }
     }
 
-    public boolean register(String nombre, String descripcion, double precio) {
+    public boolean register(String nombre, double precio) {
         if (nombre.isBlank())
             return false;
         if (String.valueOf(precio).isBlank())
             return false;
-        if (descripcion.isBlank())
-            descripcion = "";
 
         element = new ExtraDecorator(nombre, precio);
         try {

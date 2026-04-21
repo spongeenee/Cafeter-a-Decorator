@@ -1,9 +1,8 @@
 package com.example.demo1.controller;
 
-import com.example.demo1.models.ExtraDecorator;
-import com.example.demo1.models.Producto;
-import com.example.demo1.models.ProductoFactory;
+import com.example.demo1.models.*;
 import com.example.demo1.service.ExtraService;
+import com.example.demo1.service.PedidoService;
 import com.example.demo1.service.ProductoService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -11,10 +10,21 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.paint.Color;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class CafeteriaController {
     private final ProductoService productoService = new ProductoService();
     private final ExtraService extraService = new ExtraService();
+    private final PedidoService pedidoService = new PedidoService();
+    private long usuarioIDActual = 1;
     private Producto auxiliar;
+    private ProductoFactory selected;
+    private List<CrearPedidoDetalleDTO> detallesActuales = new ArrayList<>();
+    private Map<Integer, List<CrearPedidoDetalleExtrasDTO>> extrasActuales = new HashMap<>();
 
     @FXML
     private Label productPrice;
@@ -40,6 +50,8 @@ public class CafeteriaController {
     private ComboBox<ProductoFactory> product;
     @FXML
     private ComboBox<ExtraDecorator> extra;
+    @FXML
+    private ComboBox<MetodoPago> metodoPago;
 
     /**
      * Auxiliar para mantener el registro de los extras
@@ -76,11 +88,16 @@ public class CafeteriaController {
     protected void selectProduct() {
         enableExtraSelection(true);
         auxiliar = product.getValue();
+        selected = product.getValue();
         updateText();
     }
 
     @FXML
     protected void addProduct() {
+        // CODE
+        detallesActuales.add(new CrearPedidoDetalleDTO(product.getValue().ID(), 1, selected.precio()));
+        System.out.println(detallesActuales);
+        // UI
         registro.setText(registro.getText() + "\n" + auxiliar.nombre());
         updateText();
         total.setText(String.valueOf(Double.parseDouble(total.getText()) + auxiliar.precio()));
@@ -93,6 +110,13 @@ public class CafeteriaController {
     @FXML
     protected void addExtra() {
         if (extra.getValue() != null) {
+            // CODE
+            int productIndex = detallesActuales.size() - 1;
+            extrasActuales.
+                    computeIfAbsent(productIndex,k -> new ArrayList<>()).
+                    add(new CrearPedidoDetalleExtrasDTO(extra.getValue().getID(), extra.getValue().getPrecio()));
+            System.out.println(extrasActuales);
+            // UI
             updateProduct();
             statusMessage.setDisable(false);
             statusMessage.setText("Complemento agregado: " + extra.getValue());
@@ -106,6 +130,9 @@ public class CafeteriaController {
 
     @FXML
     protected void startOrder() {
+        // UI
+        detallesActuales.clear();
+        extrasActuales.clear();
         // Order manager
         finish.setDisable(false);
         restart.setDisable(false);
@@ -125,7 +152,10 @@ public class CafeteriaController {
     }
 
     @FXML
-    protected void finishOrder() {
+    protected void finishOrder() throws SQLException {
+        // Detalles del Pedido
+        pedidoService.crearPedidoCompleto(usuarioIDActual, detallesActuales, extrasActuales);
+        // UI
         restart.setDisable(true);
         start.setDisable(false);
         product.setDisable(true);
@@ -133,4 +163,5 @@ public class CafeteriaController {
         updateText();
         enableExtraSelection(false);
     }
+
 }
