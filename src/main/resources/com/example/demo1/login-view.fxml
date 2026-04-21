@@ -30,24 +30,23 @@
     <bottom>
         <VBox alignment="CENTER">
             <Hyperlink text="¿Olvidaste tu contraseña?"/>
-            <Hyperlink text="Soy Cliente"/>
         </VBox>
     </bottom>
     <center>
         <VBox style="-fx-padding: 5">
-            <VBox spacing="18" styleClass="panel-bg" style="-fx-padding: 20">
-                <VBox spacing="10">
+            <VBox spacing="18" styleClass="panel-bg" style="-fx-padding: 20" alignment="CENTER">
+                <VBox spacing="10" alignment="CENTER">
                     <HBox spacing="10.0" style="-fx-alignment: center_left">
                         <Label text="Usuario: "/>
-                        <TextField promptText="Usuario" HBox.hgrow="ALWAYS"/>
+                        <TextField fx:id="usuario" promptText="Usuario" HBox.hgrow="ALWAYS"/>
                     </HBox>
                     <HBox spacing="10.0" style="-fx-alignment: center_left">
                         <Label text="Contraseña: "/>
-                        <PasswordField promptText="Contraseña" HBox.hgrow="ALWAYS"/>
+                        <PasswordField fx:id="contrasena" promptText="Contraseña" HBox.hgrow="ALWAYS"/>
                     </HBox>
-                    <CheckBox text="Recordarme"/>
+                    <Label fx:id="loginStatus"/>
                 </VBox>
-                <Button text="Iniciar Sesión" />
+                <Button text="Iniciar Sesión" onAction="#handleLogin"/>
             </VBox>
         </VBox>
     </center>

@@ -154,7 +154,7 @@ public class CafeteriaController {
         productInOrder.setText("");
         statusMessage.setText("");
         total.setText("0.00");
-        registro.setText("REGISTRO DE ORDEN");
+        registro.setText("===REGISTRO DE ORDEN===");
         enablePayment(false);
     }
 
