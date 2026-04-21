@@ -64,16 +64,24 @@
             </VBox>
         </VBox>
     </right>
+    <!-- Orden y Pedido -->
     <bottom>
         <VBox style="-fx-padding: 5">
-            <HBox styleClass="panel-bg" alignment="BASELINE_RIGHT" spacing="12" style="-fx-padding: 10">
-                <Button fx:id="start" onAction="#startOrder" text="Empezar orden" />
-                <Button fx:id="restart" disable="true" onAction="#restartOrder" text="Reiniciar orden" />
-                <Button fx:id="finish" disable="true" onAction="#finishOrder" text="Terminar orden" />
-            </HBox>
-            <HBox styleClass="panel-bg">
-                <ComboBox fx:id="metodoPago"/>
-            </HBox>
+            <VBox styleClass="panel-bg">
+                <HBox alignment="BASELINE_RIGHT" spacing="12" style="-fx-padding: 5">
+                    <Label text="Maneja tu orden:"/>
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <Button fx:id="start" onAction="#startOrder" text="Empezar orden" />
+                    <Button fx:id="restart" disable="true" onAction="#restartOrder" text="Reiniciar orden" />
+                    <Button fx:id="finish" disable="true" onAction="#finishOrder" text="Terminar orden" />
+                </HBox>
+                <HBox style="-fx-padding: 5" spacing="10">
+                    <Label fx:id="pagoLabel" text="Selecciona método de pago:" style="-fx-font-style: italic" disable="true"/>
+                    <ComboBox fx:id="metodoPago" HBox.hgrow="ALWAYS" disable="true"/>
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <Button fx:id="pay" text="Pagar" disable="true"/>
+                </HBox>
+            </VBox>
         </VBox>
     </bottom>
 </BorderPane>

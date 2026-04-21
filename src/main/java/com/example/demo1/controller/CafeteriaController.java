@@ -23,8 +23,8 @@ public class CafeteriaController {
     private long usuarioIDActual = 1;
     private Producto auxiliar;
     private ProductoFactory selected;
-    private List<CrearPedidoDetalleDTO> detallesActuales = new ArrayList<>();
-    private Map<Integer, List<CrearPedidoDetalleExtrasDTO>> extrasActuales = new HashMap<>();
+    private final List<CrearPedidoDetalleDTO> detallesActuales = new ArrayList<>();
+    private final Map<Integer, List<CrearPedidoDetalleExtrasDTO>> extrasActuales = new HashMap<>();
 
     @FXML
     private Label productPrice;
@@ -35,6 +35,8 @@ public class CafeteriaController {
     @FXML
     private Label productInOrder;
     @FXML
+    private Label pagoLabel;
+    @FXML
     private Button start;
     @FXML
     private Button restart;
@@ -44,6 +46,8 @@ public class CafeteriaController {
     private Button addExtra;
     @FXML
     private Button addProduct;
+    @FXML
+    private Button pay;
     @FXML
     private TextArea registro;
     @FXML
@@ -74,6 +78,12 @@ public class CafeteriaController {
         extra.setDisable(!option);
         addProduct.setDisable(!option);
         addExtra.setDisable(!option);
+    }
+
+    private void enablePayment(boolean option) {
+        pagoLabel.setDisable(!option);
+        metodoPago.setDisable(!option);
+        pay.setDisable(!option);
     }
 
     @FXML
@@ -130,9 +140,10 @@ public class CafeteriaController {
 
     @FXML
     protected void startOrder() {
-        // UI
+        // CODE
         detallesActuales.clear();
         extrasActuales.clear();
+        // UI
         // Order manager
         finish.setDisable(false);
         restart.setDisable(false);
@@ -144,6 +155,7 @@ public class CafeteriaController {
         statusMessage.setText("");
         total.setText("0.00");
         registro.setText("REGISTRO DE ORDEN");
+        enablePayment(false);
     }
 
     @FXML
@@ -162,6 +174,7 @@ public class CafeteriaController {
         statusMessage.setText("");
         updateText();
         enableExtraSelection(false);
+        enablePayment(true);
     }
 
 }
